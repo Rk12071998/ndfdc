@@ -1,0 +1,109 @@
+<?php
+$qrCode = isset($appointment->qrCode->qr_code) ? ($appointment->qrCode->qr_code).( isset($appointment->qrCode->getProduct->name) ?  "(".$appointment->qrCode->getProduct->name.")" : ""  )  : 'N/A';
+?>(this use to qrcode with name)see appointmentlog controller see to relation me relation makeing
+
+
+packer relation 
+ <selected>
+{{-- <?php
+
+if ($tickets->status == 1) {
+    $status = 'Open';
+} elseif ($tickets->status == 2) {
+    $status = 'Pending';
+} elseif ($tickets->status == 3) {
+    $status = 'In Progress';
+} elseif ($tickets->status == 4) {
+    $status = 'On hold';
+} elseif ($tickets->status == 5) {
+    $status = 'Closed';
+} else {
+    $status = 'N/A';
+}
+?> --}}
+ <selected>
+
+=>   //send mail to the re schedul appointment booking user 
+
+       $shadule = array('time'=>$time,'date'=>$date);(this line use for dynamic)
+       Mail::send('email.reScheduleBookAppointment', [], function ($message) use ($request,$shadule) {
+        $message->to($request->email);
+        $message->subject('Re Schedule Book Appointment');
+      });    
+
+=>** NOTIFICATION 
+
+  $user = Ticket::create($ticketData);
+            $ticket_id =$user->ticket_id;
+            $menteeDetail = Mentee::with('userDetails','fcm_token')->where('id',$user->user_id)->get()->first();  
+             $menteeFcmToken = isset($menteeDetail->fcm_token->device_key) ? $menteeDetail->fcm_token->device_key : '';
+             $menteeName = '';
+             if(!empty($menteeDetail) && !empty($menteeFcmToken)){
+                 if(!empty($menteeDetail->userDetails->first_name)){
+                     $menteeName .= $menteeDetail->userDetails->first_name;
+                 }
+                 if(!empty($menteeDetail->userDetails->last_name)){
+                     $menteeName .= ' '.$menteeDetail->userDetails->last_name;
+                 }
+                 $title = config('zamzam.fcm_notificaton_for_user.generate_ticket.title'); 
+                 $body = config('zamzam.fcm_notificaton_for_user.generate_ticket.body');
+                 $bodyText = str_replace(
+                                 array("##NAME##","##TICKET##"),
+                                 array($menteeName,$ticket_id),
+                                 $body
+                             );
+                 Helper::sendPushNotification($menteeFcmToken, $title, $bodyText);
+             }
+
+
+
+=>this is use to get api to get image  when code in foreach loop and u want ot get image in array
+
+         if (isset($val['mentee']['image_path'])) {
+                $image = asset($val['mentee']['image_path']);                         
+            }
+
+=>  this is use to multipule relateion (this code is use in controller)
+
+    $acceptedAppointments=BookAppointment::with(['mentor'=>function($q){
+                $q->with(['user_country','occupation']);
+
+
+
+=> href ="javascript:void(0)"  (this code to  make hand on click mouse)
+
+
+=> (this code is use to create pdf excal file ect on listing page ) 
+
+<script>
+    $("#category_tbl").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    dom: 'Bfrtip',
+    lengthMenu: [
+      [ 10, 25, 50, -1 ],
+      [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+    ],
+    'columnDefs': [{
+      "targets": 3,
+      "orderable": false
+     }],
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis", "pageLength"]
+  }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+</script>
+
+        
+=> when we use this condition both condition run same time
+where('status', 1)->whereRaw('consultation_fee > 0')        
+
+=>you want to use multipule condition in where like this in arrAY
+ $user = User::where(["mobile" => $data["mobile"], "contact_code" => $contact_code])->first();
+
+
+ => this is use to selcet query dd
+
+ \DB::enableQueryLog(); this code put stat query place
+ dd(\DB::getQueryLog());
+
+
+ => this is use to concat  two column data in single word
+    DB::raw("CONCAT(user_foods.expiry_days,' ','Days') as exp_days"),
